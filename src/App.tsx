@@ -1,9 +1,9 @@
 import './App.css'
-import TaskList from "./Components/Task/TaskList.tsx";
+import Todo from "./Components/Todo/Todo.tsx";
 
 const App = () => (
     <>
-        <TaskList/>
+        <Todo/>
     </>
 );
 
