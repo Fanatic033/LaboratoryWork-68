@@ -1,7 +1,8 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {fetchTodos} from "./TodoThunks.ts";
 
 export interface Task {
+    id: string;
     title: string;
     status: boolean
 }
@@ -21,8 +22,9 @@ const todoSlice = createSlice({
     initialState,
     reducers:{},
     extraReducers:(builder) => {
-        builder.addCase(fetchTodos.fulfilled, (state,action) => {
+        builder.addCase(fetchTodos.fulfilled, (state,action: PayloadAction<Task[]>) => {
             state.tasks = action.payload
+            state.error = false
         })
     }
 })
