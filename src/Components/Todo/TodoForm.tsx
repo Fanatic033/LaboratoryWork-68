@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {AppDispatch} from '../../store';
-import {fetchTodos, postTodo} from "./TodoThunks.ts";
+import {postTodo} from "./TodoThunks.ts";
 
 const TodoForm: React.FC = () => {
     const [title, setTitle] = useState('');
@@ -11,12 +11,11 @@ const TodoForm: React.FC = () => {
         e.preventDefault();
         dispatch(postTodo({title, status: false}));
         setTitle('');
-        dispatch(fetchTodos())
     };
 
     return (
         <>
-            <form onSubmit={handleSubmit}  className={'mb-5'}>
+            <form onSubmit={handleSubmit} className={'mb-5'}>
                 <div className="input-group">
                     <input
                         type="text"

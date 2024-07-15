@@ -19,15 +19,16 @@ export const fetchTodos = createAsyncThunk<Task[], undefined, {
 })
 
 export const postTodo = createAsyncThunk<void, postType, {
-    state: RootState
-}>('todos/AddTodo', async (_arg,) => {
+    state: RootState;
+    rejectValue: string;
+}>('todos/AddTodo', async (taskData, {rejectWithValue, dispatch}) => {
     try {
-        await axiosApi.post('/tasks.json', _arg)
+        await axiosApi.post('/tasks.json', taskData);
+        dispatch(fetchTodos());
     } catch (e) {
-        return console.error(e)
+        return rejectWithValue('Failed to add task');
     }
-})
-
+});
 
 export const deleteTodo = createAsyncThunk<string, string, { rejectValue: string }>(
     'todos/deleteTodo',
@@ -41,4 +42,21 @@ export const deleteTodo = createAsyncThunk<string, string, { rejectValue: string
     }
 );
 
+export const updateTodoStatus = createAsyncThunk<Task, statusType, { rejectValue: string }>(
+    'todos/updateStatus',
+    async ({id, status}, {rejectWithValue}) => {
+        try {
+            const response = await axiosApi.get<Task>(`/tasks/${id}.json`);
+            const currentTask = response.data;
+            const updatedTask = {...currentTask, status};
+            await axiosApi.patch(`/tasks/${id}.json`, {status});
+            return {...updatedTask, id};
+        } catch (e) {
+            return rejectWithValue('Failed');
+        }
+    }
+);
+
+
 export type postType = { title: string, status: boolean, }
+export type statusType = { id: string, status: boolean, }

@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {deleteTodo, fetchTodos, postTodo,} from "./TodoThunks.ts";
+import {deleteTodo, fetchTodos, postTodo, updateTodoStatus,} from "./TodoThunks.ts";
 
 export interface Task {
     id: string;
@@ -26,8 +26,8 @@ const todoSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchTodos.pending, (state) => {
-                state.error = false;
                 state.isLoading = true
+                state.error = false;
             })
             .addCase(fetchTodos.fulfilled, (state, action: PayloadAction<Task[]>) => {
                 state.tasks = action.payload
@@ -41,17 +41,17 @@ const todoSlice = createSlice({
             .addCase(postTodo.fulfilled, (state) => {
                 state.error = false
             })
-        .addCase(postTodo.rejected, (state) => {
-            state.error = true;
-        })
-            // .addCase(updateTodoStatus.fulfilled, (state, action: PayloadAction<Task>) => {
-            //     const index = state.tasks.findIndex(task => task.id === action.payload.id);
-            //     if (index !== -1) {
-            //         state.tasks[index] = action.payload;
-            //     }
-            // })
+            .addCase(postTodo.rejected, (state) => {
+                state.error = true;
+            })
             .addCase(deleteTodo.fulfilled, (state, action: PayloadAction<string>) => {
                 state.tasks = state.tasks.filter(task => task.id !== action.payload);
+            })
+            .addCase(updateTodoStatus.fulfilled, (state, action: PayloadAction<Task>) => {
+                const index = state.tasks.findIndex(task => task.id === action.payload.id);
+                if (index !== -1) {
+                    state.tasks[index] = action.payload;
+                }
             });
 
     }

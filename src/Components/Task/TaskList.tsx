@@ -4,10 +4,12 @@ import {useEffect, useState} from "react";
 import {fetchTodos} from "../Todo/TodoThunks.ts";
 import {Task} from "../Todo/TodoSlice.ts";
 import TaskItem from "./TaskItem.tsx";
+import Spinner from "../Spinner/Spinner.tsx";
 
 const TaskList = () => {
     const dispatch: AppDispatch = useDispatch();
     const Tasks = useSelector((state: RootState) => state.todos.tasks);
+    const isLoading = useSelector((state: RootState) => state.todos.isLoading)
     const [data, setData] = useState(Tasks);
 
 
@@ -18,11 +20,12 @@ const TaskList = () => {
     useEffect(() => {
         setData(Tasks)
     }, [Tasks]);
+
     return (
         <>
             <div className="text-center">
-                <h2> To-do List</h2>
-                {data.map((task: Task) => (
+                <h2 className={'mb-5'}> To-do List</h2>
+                {isLoading ? <Spinner/> : data.map((task: Task) => (
                     <TaskItem key={task.id} task={task}/>
                 ))}
             </div>
