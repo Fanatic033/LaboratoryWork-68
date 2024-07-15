@@ -8,6 +8,10 @@ const TodoForm: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
 
     const handleSubmit = (e: React.FormEvent) => {
+        if (title === '') {
+            alert('пустой запрос')
+            return;
+        }
         e.preventDefault();
         dispatch(postTodo({title, status: false}));
         setTitle('');
