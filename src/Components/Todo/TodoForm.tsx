@@ -16,14 +16,18 @@ const TodoForm: React.FC = () => {
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    placeholder="Add a new task"
-                />
-                <button type="submit">Add</button>
+            <form onSubmit={handleSubmit}  className={'mb-5'}>
+                <div className="input-group">
+                    <input
+                        type="text"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        placeholder="Add a new task"
+                        className={'form-control'}
+                        aria-describedby="button"
+                    />
+                    <button type="submit" className={'btn btn-primary'} id={'button'}>Add</button>
+                </div>
             </form>
         </>
     );

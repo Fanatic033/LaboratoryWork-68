@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {fetchTodos, postTodo} from "./TodoThunks.ts";
+import {deleteTodo, fetchTodos, postTodo,} from "./TodoThunks.ts";
 
 export interface Task {
     id: string;
@@ -41,9 +41,19 @@ const todoSlice = createSlice({
             .addCase(postTodo.fulfilled, (state) => {
                 state.error = false
             })
-        builder.addCase(postTodo.rejected, (state) => {
+        .addCase(postTodo.rejected, (state) => {
             state.error = true;
-        });
+        })
+            // .addCase(updateTodoStatus.fulfilled, (state, action: PayloadAction<Task>) => {
+            //     const index = state.tasks.findIndex(task => task.id === action.payload.id);
+            //     if (index !== -1) {
+            //         state.tasks[index] = action.payload;
+            //     }
+            // })
+            .addCase(deleteTodo.fulfilled, (state, action: PayloadAction<string>) => {
+                state.tasks = state.tasks.filter(task => task.id !== action.payload);
+            });
+
     }
 })
 

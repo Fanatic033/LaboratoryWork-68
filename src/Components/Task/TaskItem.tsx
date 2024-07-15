@@ -1,11 +1,19 @@
 import {Task} from "../Todo/TodoSlice.ts";
 import {FC} from "react";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "../../store.ts";
+import {deleteTodo,} from "../Todo/TodoThunks.ts";
 
 interface Props {
     task: Task;
 }
 
 const TaskItem: FC<Props> = ({task}) => {
+    const dispatch: AppDispatch = useDispatch();
+
+    const handleDelete = () => {
+        dispatch(deleteTodo(task.id));
+    };
     return (
         <>
             <div className="card mb-3 container">
@@ -14,7 +22,7 @@ const TaskItem: FC<Props> = ({task}) => {
                     <p className='card-text'>{task.title}</p>
                 </div>
                 <div>
-                    <button className="btn  btn-danger">delete</button>
+                    <button className="btn  btn-danger" onClick={handleDelete}>delete</button>
                 </div>
             </div>
         </>

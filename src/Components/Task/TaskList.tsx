@@ -8,13 +8,13 @@ import TaskItem from "./TaskItem.tsx";
 const TaskList = () => {
     const dispatch: AppDispatch = useDispatch();
     const Tasks = useSelector((state: RootState) => state.todos.tasks);
+    const [data, setData] = useState(Tasks);
 
 
     useEffect(() => {
         dispatch(fetchTodos())
     }, [dispatch])
 
-    const [data, setData] = useState(Tasks);
     useEffect(() => {
         setData(Tasks)
     }, [Tasks]);

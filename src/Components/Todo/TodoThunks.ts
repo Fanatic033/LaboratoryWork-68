@@ -9,7 +9,8 @@ export const fetchTodos = createAsyncThunk<Task[], undefined, {
     try {
         const {data: task} = await axiosApi.get<{ [key: string]: Task }>('/tasks.json')
         const tasks: Task[] = Object.keys(task).map((key) => ({
-            ...task[key]
+            ...task[key],
+            id: key,
         }));
         return tasks
     } catch (e) {
@@ -27,4 +28,17 @@ export const postTodo = createAsyncThunk<void, postType, {
     }
 })
 
-export type postType = {title: string, status: boolean,}
+
+export const deleteTodo = createAsyncThunk<string, string, { rejectValue: string }>(
+    'todos/deleteTodo',
+    async (id, {rejectWithValue}) => {
+        try {
+            await axiosApi.delete(`/tasks/${id}.json`);
+            return id;
+        } catch (e) {
+            return rejectWithValue('Failed to delete task');
+        }
+    }
+);
+
+export type postType = { title: string, status: boolean, }
