@@ -23,7 +23,7 @@ const TaskList = () => {
 
     return (
         <>
-            <div className="text-center">
+            <div className="text-center container">
                 <h2 className={'mb-5'}> To-do List</h2>
                 {isLoading ? <Spinner/> : data.map((task: Task) => (
                     <TaskItem key={task.id} task={task}/>

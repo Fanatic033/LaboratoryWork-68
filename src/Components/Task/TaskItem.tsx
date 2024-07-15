@@ -21,13 +21,25 @@ const TaskItem: FC<Props> = ({task}) => {
     };
     return (
         <>
-            <div className="card mb-3 container">
-                <div className="card-body">
-                    <input type='checkbox' checked={task.status} onChange={handleChange}/>
-                    <p className='card-text'>{task.title}</p>
-                </div>
-                <div>
-                    <button className="btn  btn-danger" onClick={handleDelete}>delete</button>
+            <div className="card mb-3">
+                <div className="card-body d-flex align-items-center">
+                    <div className="form-check ps-5 d-flex align-items-center">
+                        <input
+                            type="checkbox"
+                            className="form-check-input fs-1 ps-5 border-black"
+                            id={`task-${task.id}`}
+                            checked={task.status}
+                            onChange={handleChange}
+                        />
+                        <label
+                            className={`ms-5 fs-4 form-check-label ${task.status ? 'text-decoration-line-through' : ''}`}
+                            htmlFor={`task-${task.id}`}>
+                            {task.title}
+                        </label>
+                    </div>
+                    <button className="btn btn-danger ms-auto" onClick={handleDelete}>
+                        Delete
+                    </button>
                 </div>
             </div>
         </>
